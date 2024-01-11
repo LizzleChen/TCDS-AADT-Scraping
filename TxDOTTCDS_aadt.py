@@ -64,21 +64,20 @@ def process_data(response_list):
             row = rows_tr[i].find_all('td')
             if len(row) <= 1:
                 break
-            cell_data = [cell_bs.text for cell_bs in row if cell_bs.text != '']
+            cell_data = [''.join(str(item) for item in td.contents if not getattr(item, 'name', None) == 'sup').strip() for td in row if td.contents]
             row_data.append(cell_data)
             
     return col_names, row_data
     
 
 def main():
-    data_id = '15H193'  # You can change this to any desired data_id
+    data_id = '31H228'  # You can change this to any desired data_id
     response_list = scrape_traffic_data(data_id)
 
     if response_list:
         col_names, row_data = process_data(response_list)
 
     # Create a DataFrame from the extracted data and save as a csv file
-    df = pd.DataFrame(row_data, columns=col_names)
     df.to_csv(f'historical_aadt_{data_id}.csv', index=False)  
     print('Data saved as csv file')
         
