@@ -78,6 +78,7 @@ def main():
         col_names, row_data = process_data(response_list)
 
     # Create a DataFrame from the extracted data and save as a csv file
+    df = pd.DataFrame(row_data, columns = col_names).sort_values(by="Year").reset_index(drop=True)
     df.to_csv(f'historical_aadt_{data_id}.csv', index=False)  
     print('Data saved as csv file')
         
