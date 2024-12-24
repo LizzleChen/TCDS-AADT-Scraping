@@ -41,12 +41,14 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
     
     while True:
         try:
-            time.sleep(random.randint(3,5)) #have to wait a few seconds before selenium be able to use the same element after page changes.
             # Wait for table to be present and visible
             table_div = WebDriverWait(driver, timeout).until(
                 EC.visibility_of_element_located((By.ID, "TCDS_TDETAIL_AADT_DIV"))
             )
             
+            #have to wait a few seconds before selenium be able to use the same element after page changes.
+            time.sleep(random.randint(3,5)) 
+
             # Get the data from current page
             rows = table_div.find_elements(By.XPATH, tablediv_xpath)
             for row in rows:
@@ -58,15 +60,27 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
                     })
             
             # Find and click next button
-            button = WebDriverWait(driver, timeout).until(
-                EC.presence_of_element_located((By.XPATH, '//div[@id="TCDS_TDETAIL_AADT_DIV"]//input[@type="button" and @value=">" and @name="a_first"]'))
-            )
-            
-            if not button.is_enabled():
-                print("Reached last page")
-                break
+            try:
+                button = WebDriverWait(driver, timeout).until(
+                    EC.presence_of_element_located((By.XPATH, '//div[@id="TCDS_TDETAIL_AADT_DIV"]//input[@type="button" and @value=">" and @name="a_first"]'))
+                )
                 
-            button.click()
+                if not button.is_enabled():
+                    print("Reached last page")
+                    break
+                    return all_aadt
+                    
+                button.click()
+
+            except TimeoutException as e:
+                print("Next page button not found, might be the only AADT page")
+                driver.quit()
+                return all_aadt
+            
+            except Exception as e:
+                print(f"Error occurred: {e}. Exporting AADT data fetched so far.")
+                driver.quit()
+                return all_aadt
             
             
         except TimeoutException as e:
