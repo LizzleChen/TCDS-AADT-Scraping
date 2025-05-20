@@ -25,8 +25,11 @@ def open_tcds_detail_page(id):
     options.capabilities['browserVersion'] = 'stable'
     driver = webdriver.Chrome()
     driver.get(
-        f'https://txdot.public.ms2soft.com/tcds/set_session.asp?ext=y&loc=txdot&LOCAL_ID={id}&MASTER_LOCAL_ID={id}'
+        f'https://txdot.public.ms2soft.com/tcds/set_session.asp?ext=y&loc=txdot&LOCAL_ID={id}'
         )
+    #Sleep for at least 8 seconds in case the AADT table doesn't load 
+    time.sleep(random.randint(8,10)) 
+
     return
 
 def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-sibling::tr", timeout=20):
@@ -47,7 +50,7 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
             )
             
             #have to wait a few seconds before selenium be able to use the same element after page changes.
-            time.sleep(random.randint(3,5)) 
+            time.sleep(random(2,3)) 
 
             # Get the data from current page
             rows = table_div.find_elements(By.XPATH, tablediv_xpath)
