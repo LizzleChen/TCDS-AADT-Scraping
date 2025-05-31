@@ -33,6 +33,24 @@ def open_tcds_detail_page(id):
 
     return
 
+def check_dir():
+    """
+    Check if there are multiple directions in AADT page. 
+    If it is only two-way, proceed with just one scraping process.
+    If there are different directions, after finishing the two-way, scrape each direction. 
+
+    Returns: 
+        A list of available directions ["NB", "SB"] or [] for "two-way" only
+    """
+
+    # One-way or Two-way X-Path: //*[@id="DIR_BUTTONS_DIV"]/span/div[2]/input
+    global driver
+    input_elements = driver.find_elements(By.XPATH, "//div[@id='DIR_BUTTONS_DIV']//input")
+    values = [element.get_attribute('value') for element in input_elements if element.get_attribute('value') in ["NB", "SB", "EB", "WB"]]
+    return values
+
+
+
 def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-sibling::tr", timeout=20):
     """
     Extract AADT data page by page and export the AADT data to a CSV file
@@ -85,12 +103,10 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
 
             except TimeoutException as e:
                 print("Next page button not found, might be the only AADT page")
-                driver.quit()
                 return all_aadt
             
             except Exception as e:
                 print(f"Error occurred: {e}. Exporting AADT data fetched so far.")
-                driver.quit()
                 return all_aadt
             
             
@@ -100,8 +116,6 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
         except Exception as e:
             print(f"Error occurred: {e}")
             break
-
-    driver.quit()
     
     return all_aadt
 
@@ -136,11 +150,14 @@ def process_single_id(id: str) -> None:
         id: The TCDS identifier
         output_file: Path to the output CSV file
     """
+    global driver
     print(f"Processing ID: {id}")
     open_tcds_detail_page(id)
+    check_dir()
     aadt = scrape_aadt_data()
     append_to_json(id, "output.json", aadt)
     # export_to_csv(id, aadt)
+    driver.quit()
 
 def read_ids_from_file(file_path: str) -> List[str]:
     """
