@@ -51,17 +51,25 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
             )
             
             #have to wait a few seconds before selenium be able to use the same element after page changes.
-            time.sleep(random.randrange(2,3)) 
+            time.sleep(random.randrange(5,6)) 
+
+            #Create check set to check for repetitive years. Sometimes the website is slow responding to next page button click, and we will get duplicated years in our outputs. 
+            seen_year = set()
 
             # Get the data from current page
             rows = table_div.find_elements(By.XPATH, tablediv_xpath)
             for row in rows:
                 cells = row.find_elements(By.CLASS_NAME, "FormRow")
                 if len(cells) >= 3:
-                    all_aadt.append({
-                        'year': cells[1].get_attribute('innerHTML'),
-                        'aadt': re.sub(r'<sup>.*?</sup>', '', cells[2].get_attribute('innerHTML'))
-                    })
+                    year = cells[1].get_attribute('innerHTML')
+                    aadt = re.sub(r'<sup>.*?</sup>', '', cells[2].get_attribute('innerHTML'))
+
+                    if year not in seen_year:
+                        seen_year.add(year)
+                        all_aadt.append({
+                            'year': year,
+                            'aadt': aadt
+                        })
             
             # Find and click next button
             try:
@@ -71,7 +79,7 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
                 
                 if not button.is_enabled():
                     print("Reached last page")
-                    return all_aadt
+                    break
                     
                 button.click()
 
