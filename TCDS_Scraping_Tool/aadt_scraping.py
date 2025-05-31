@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,6 +11,8 @@ import argparse
 import csv
 from typing import List, Dict
 from pathlib import Path
+import os
+import json
 
 def open_tcds_detail_page(id):
     """
@@ -50,7 +51,7 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
             )
             
             #have to wait a few seconds before selenium be able to use the same element after page changes.
-            time.sleep(random(2,3)) 
+            time.sleep(random.randrange(2,3)) 
 
             # Get the data from current page
             rows = table_div.find_elements(By.XPATH, tablediv_xpath)
@@ -70,7 +71,6 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
                 
                 if not button.is_enabled():
                     print("Reached last page")
-                    break
                     return all_aadt
                     
                 button.click()
@@ -111,6 +111,16 @@ def export_to_csv(id, aadt):
     df.to_csv(f'historical_aadt_{id}.csv', index=False)  
     print('Data saved as csv file')
 
+def append_to_json(id, filename, aadt):
+    data = {}
+    if os.path.exists(filename):
+        with open(filename, 'a') as f:
+            f.write('\n' + json.dumps({"id": id, "aadt": aadt}))
+    else:
+        # Create new file if json file doesn't exists
+        with open(filename, 'w') as f:
+            json.dump({"id": id, "aadt": aadt}, f)
+
 def process_single_id(id: str) -> None:
     """
     Process a single TCDS ID
@@ -121,7 +131,8 @@ def process_single_id(id: str) -> None:
     print(f"Processing ID: {id}")
     open_tcds_detail_page(id)
     aadt = scrape_aadt_data()
-    export_to_csv(id, aadt)
+    append_to_json(id, "output.json", aadt)
+    # export_to_csv(id, aadt)
 
 def read_ids_from_file(file_path: str) -> List[str]:
     """
