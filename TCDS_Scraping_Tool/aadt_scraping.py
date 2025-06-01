@@ -13,6 +13,15 @@ from typing import List, Dict
 from pathlib import Path
 import os
 import json
+import logging
+
+logging.basicConfig(
+    filename='scraper.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(funcName)s - %(levelname)s - %(message)s'
+)
+
+logger = logging.getLogger(__name__)
 
 def open_tcds_detail_page(id):
     """
@@ -53,6 +62,7 @@ def click_dir_button(dir: str, timeout = 20):
     global driver
     xpath = f"//div[@id='DIR_BUTTONS_DIV']//input[@value='{dir}']"
     print(f"Getting Direction {dir} direction")
+    logger.info(f"Getting Direction {dir} direction")
     try:
         element = WebDriverWait(driver, timeout).until(EC.element_to_be_clickable((By.XPATH, xpath)))
         element.click()
@@ -68,6 +78,7 @@ def click_dir_button(dir: str, timeout = 20):
     
     except NoSuchElementException:
         print(f"Element with direction value of '{dir}' not found")
+        logger.info(f"Element with direction value of '{dir}' not found")
         return False
     
     return False
@@ -127,18 +138,22 @@ def scrape_aadt_data(tablediv_xpath = ".//tr[@class='FormRowLabel']/following-si
 
             except TimeoutException as e:
                 print("Next page button not found, might be the only AADT page")
+                logger.info("Next page button not found, might be the only AADT page")
                 return all_aadt
             
             except Exception as e:
                 print(f"Error occurred: {e}. Exporting AADT data fetched so far.")
+                logger.info(f"Error occurred: {e}. Exporting AADT data fetched so far.")
                 return all_aadt
             
             
         except TimeoutException as e:
             print("Timeout waiting for elements")
+            logger.info("Timeout waiting for elements. ")
             break
         except Exception as e:
             print(f"Error occurred: {e}")
+            logger.info(f"Error occurred: {e}")
             break
     
     return all_aadt
@@ -166,6 +181,7 @@ def append_to_json(id, filename, aadt):
         # Create new file if json file doesn't exists
         with open(filename, 'w') as f:
             json.dump({"id": id, "aadt": aadt}, f)
+    logger.info(f'Station {id} added to json file.')
 
 def process_single_id(id: str) -> None:
     """
@@ -175,7 +191,10 @@ def process_single_id(id: str) -> None:
         output_file: Path to the output CSV file
     """
     global driver
+
     print(f"Processing ID: {id}")
+    logger.info(f"Processing ID: {id}")
+
     open_tcds_detail_page(id)
     aadt = scrape_aadt_data()
     append_to_json(id, "output.json", aadt)
@@ -219,6 +238,7 @@ def main():
     else:
         ids = read_ids_from_file(args.file)
         print(f"Found {len(ids)} IDs to process")
+        logger.info(f"Found {len(ids)} IDs to process")
         for id in ids:
             process_single_id(id)
     
