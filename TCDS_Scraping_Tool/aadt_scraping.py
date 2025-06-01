@@ -31,8 +31,18 @@ def open_tcds_detail_page(id):
     """
     global driver
     options = webdriver.ChromeOptions()
-    # options.browser_version = 'stable'
-    # options.capabilities['browserVersion'] = 'stable'
+    options.add_argument('--headless')  
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1920,1080')
+    user_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+    ]
+    options.add_argument(f'--user-agent={random.choice(user_agents)}')
+
     driver = webdriver.Chrome()
     driver.get(
         f'https://txdot.public.ms2soft.com/tcds/set_session.asp?ext=y&loc=txdot&LOCAL_ID={id}'
