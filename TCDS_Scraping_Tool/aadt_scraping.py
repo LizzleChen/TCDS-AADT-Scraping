@@ -19,8 +19,8 @@ from datetime import datetime, timedelta
 class BatchScrapper:
 
     def __init__(self, 
-                 batch_size: int = 50,
-                 delay_between_requests: tuple = (2, 5),
+                 batch_size: int = 25,
+                 delay_between_requests: tuple = (10, 15),
                  delay_between_batches: tuple = (300, 600), 
                  max_retries: int = 3,
                  progress_file: str = "scraping_progress.json"):
@@ -171,7 +171,7 @@ class BatchScrapper:
                 )
                 
                 #have to wait a few seconds before selenium be able to use the same element after page changes.
-                time.sleep(random.randrange(5,6)) 
+                time.sleep(random.randrange(6,10)) 
 
                 # Get the data from current page
                 rows = WebDriverWait(driver,timeout).until(
@@ -376,7 +376,6 @@ class BatchScrapper:
                     self.append_to_json(id+"_"+dir, "output.json", aadt)
                 else:
                     self.logger.info(f"Failed to retrieve Station {id} directional information")
-                    return False
 
         # export_to_csv(id, aadt)
         driver.quit()
