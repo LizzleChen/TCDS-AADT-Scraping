@@ -205,7 +205,6 @@ class BatchScrapper:
                 except TimeoutException as e:
                     print("Next page button not found, might be the only AADT page")
                     self.logger.info("Next page button not found, might be the only AADT page")
-                    driver.quit()
                     return all_aadt
                 
                 except Exception as e:
@@ -239,7 +238,6 @@ class BatchScrapper:
             for i, id in enumerate(batch):
                 if id in self.progress['completed_ids']:
                     self.logger.info(f"Skipping already completed ID: {id}")
-                    batch_results['successful'].append(id)
                     continue
 
                 single_id_result = self.process_single_id(id)
@@ -366,6 +364,7 @@ class BatchScrapper:
             self.append_to_json(id, "output.json", aadt)
         else:
             self.logger.info(f"Failed to retrieve ID:{id}")
+            driver.quit()
             return False
         directions = self.check_dir()
         if directions:
@@ -398,7 +397,7 @@ class BatchScrapper:
         group = parser.add_mutually_exclusive_group(required=True)
         group.add_argument('-i', '--id', help='Single TCDS ID to process')
         group.add_argument('-f', '--file', help='File containing list of TCDS IDs')
-        parser.add_argument('--batch-size', type=int, default=50, help='Number of IDs per batch (default: 50)')
+        parser.add_argument('--batch-size', type=int, default=25, help='Number of IDs per batch (default: 25)')
         
         # Parse arguments
         args = parser.parse_args()
