@@ -11,3 +11,4 @@ chromedriver*
 *claude*
 *.ipynb
 *.csv
+*.txt
