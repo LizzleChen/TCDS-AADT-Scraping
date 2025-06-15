@@ -101,7 +101,7 @@ class BatchScrapper:
 
         driver = webdriver.Chrome()
         driver.get(
-            f'https://txdot.public.ms2soft.com/tcds/set_session.asp?ext=y&loc=txdot&LOCAL_ID={id}'
+            f'https://txdot.public.ms2soft.com/tcds/tsearch.asp?loc=Txdot&mod=tcds&local_id={id}'  
             )
         #Sleep for at least 8 seconds in case the AADT table doesn't load 
         time.sleep(random.randint(8,10)) 
