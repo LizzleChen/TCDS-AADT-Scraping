@@ -12,3 +12,4 @@ chromedriver*
 *.ipynb
 *.csv
 *.txt
+**/C4A/
