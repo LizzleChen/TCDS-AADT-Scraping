@@ -1,0 +1,309 @@
+{
+  "name": "TxDOT TCDS Traffic Count Data Extraction",
+  "baseSelector": "body",
+  "fields": [
+    {
+      "name": "location_id",
+      "selector": "table.frmDtl tr:has(th:contains('Location ID')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "mpo_id",
+      "selector": "table.frmDtl tr:has(th:contains('MPO ID')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "type",
+      "selector": "table.frmDtl tr:has(th:contains('Type')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "hpms_id",
+      "selector": "table.frmDtl tr:has(th:contains('HPMS ID')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "sf_group",
+      "selector": "table.frmDtl tr:has(th:contains('SF Group')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "route_type",
+      "selector": "table.frmDtl tr:has(th:contains('Route Type')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "af_group",
+      "selector": "table.frmDtl tr:has(th:contains('AF Group')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "route",
+      "selector": "table.frmDtl tr:has(th:contains('Route')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "gf_group",
+      "selector": "table.frmDtl tr:has(th:contains('GF Group')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "active",
+      "selector": "table.frmDtl tr:has(th:contains('Active')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "class_dist_grp",
+      "selector": "table.frmDtl tr:has(th:contains('Class Dist Grp')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "category",
+      "selector": "table.frmDtl tr:has(th:contains('Category')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "seas_clss_grp",
+      "selector": "table.frmDtl tr:has(th:contains('Seas Clss Grp')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "wim_group",
+      "selector": "table.frmDtl tr:has(th:contains('WIM Group')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "qc_group",
+      "selector": "table.frmDtl tr:has(th:contains('QC Group')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "functional_class",
+      "selector": "table.frmDtl tr:has(th:contains('Fnct\\'l Class')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "located_on",
+      "selector": "table.frmDtl tr:has(th:contains('Located On')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "loc_on_alias",
+      "selector": "table.frmDtl tr:has(th:contains('Loc On Alias')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "county",
+      "selector": "table#detail tr:has(th:contains('County')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "fips_county_code",
+      "selector": "table#detail tr:has(th:contains('FIPS County Code')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "community",
+      "selector": "table#detail tr:has(th:contains('Community')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "num_lanes",
+      "selector": "table#detail tr:has(th:contains('# Lanes')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "surface_type",
+      "selector": "table#detail tr:has(th:contains('Surface Type')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "district",
+      "selector": "table#detail tr:has(th:contains('District')) td.lt:first-of-type",
+      "type": "text"
+    },
+    {
+      "name": "count_cycle",
+      "selector": "table#detail tr:has(th:contains('Count Cycle')) td.lt:last-child",
+      "type": "text"
+    },
+    {
+      "name": "control_section",
+      "selector": "table#detail tr:has(th:contains('Control Section')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "ctrl_section_mp",
+      "selector": "table#detail tr:has(th:contains('Ctrl Section MP')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "perm_station",
+      "selector": "table#detail tr:has(th:contains('Perm Station')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "dot_id",
+      "selector": "table#detail tr:has(th:contains('DOT ID')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "wim_station",
+      "selector": "table#detail tr:has(th:contains('WIM Station')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "latitude",
+      "selector": "table#detail tr:has(th:contains('Latitude')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "virtual",
+      "selector": "table#detail tr:has(th:contains('Virtual')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "longitude",
+      "selector": "table#detail tr:has(th:contains('Longitude')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "mega_site",
+      "selector": "table#detail tr:has(th:contains('Mega-Site')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "speed_limit",
+      "selector": "table#detail tr:has(th:contains('Speed Limit')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "mpo",
+      "selector": "table#detail tr:has(th:contains('MPO')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "ltpp",
+      "selector": "table#detail tr:has(th:contains('LTPP')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "state_owned",
+      "selector": "table#detail tr:has(th:contains('State Owned')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "owner_id",
+      "selector": "table#detail tr:has(th:contains('Owner ID')) td:nth-child(2)",
+      "type": "text"
+    },
+    {
+      "name": "rural_urban",
+      "selector": "table#detail tr:has(th:contains('Rural/Urban')) td:last-child",
+      "type": "text"
+    },
+    {
+      "name": "count_schedule_group",
+      "selector": "table#detail tr:has(th:contains('CountScheduleGroup')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "prefix",
+      "selector": "table#detail tr:has(th:contains('Prefix')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "site_id",
+      "selector": "table#detail tr:has(th:contains('SiteId')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "suffix",
+      "selector": "table#detail tr:has(th:contains('Suffix')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "state_county_code",
+      "selector": "table#detail tr:has(th:contains('State County Code')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "area_type",
+      "selector": "table#detail tr:has(th:contains('Area Type')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "long_term_station",
+      "selector": "table#detail tr:has(th:contains('Long Term Station')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "district_number",
+      "selector": "table#detail tr:has(th:contains('District Number')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "days_since_last_count_check",
+      "selector": "table#detail tr:has(th:contains('Days Since Last Count Check')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "collection_type",
+      "selector": "table#detail tr:has(th:contains('Collection Type')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "operation_status",
+      "selector": "table#detail tr:has(th:contains('Operation Status')) td.lt",
+      "type": "text"
+    },
+    {
+      "name": "aadt_data",
+      "selector": "#TCDS_TDETAIL_AADT_DIV table#tblTable4 tr.FormRowLabel:not(:last-child)",
+      "type": "nested_list",
+      "fields": [
+        {
+          "name": "year",
+          "selector": "td:nth-child(2)",
+          "type": "text"
+        },
+        {
+          "name": "aadt",
+          "selector": "td:nth-child(3)",
+          "type": "text"
+        },
+        {
+          "name": "dhv_30",
+          "selector": "td:nth-child(4)",
+          "type": "text"
+        },
+        {
+          "name": "k_percent",
+          "selector": "td:nth-child(5)",
+          "type": "text"
+        },
+        {
+          "name": "d_percent",
+          "selector": "td:nth-child(6)",
+          "type": "text"
+        },
+        {
+          "name": "pa",
+          "selector": "td:nth-child(7)",
+          "type": "text"
+        },
+        {
+          "name": "bc",
+          "selector": "td:nth-child(8)",
+          "type": "text"
+        },
+        {
+          "name": "src",
+          "selector": "td:nth-child(9)",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+
