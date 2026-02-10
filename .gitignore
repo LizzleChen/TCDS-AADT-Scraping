@@ -13,3 +13,5 @@ chromedriver*
 *.csv
 *.txt
 **/C4A/
+TCDSAllFiles.json
+C4A Tools/TCDSAllFields.json
