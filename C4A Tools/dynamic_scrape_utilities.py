@@ -1,7 +1,9 @@
 import asyncio
 import json
-from tabnanny import verbose
+import os
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode, JsonCssExtractionStrategy
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 async def go_to_station(station_id, url):
     browser_config = BrowserConfig(
@@ -9,8 +11,8 @@ async def go_to_station(station_id, url):
         # java_script_enabled=True,
     )
 
-    # Define the extraction schema
-    with open('tcds_extraction_schema.json', 'r') as f:
+    schema_path = os.path.join(SCRIPT_DIR, 'tcds_extraction_schema.json')
+    with open(schema_path, 'r') as f:
         schema = json.load(f)
 
     crawler_config = CrawlerRunConfig(
