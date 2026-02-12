@@ -18,9 +18,10 @@ async def go_to_station(station_id, crawler):
     crawler_config = CrawlerRunConfig(
         cache_mode=CacheMode.DISABLED,
         extraction_strategy=JsonCssExtractionStrategy(schema, verbose=True),
-        delay_before_return_html=5.0,
-        process_iframes=True,
         wait_until="networkidle",
+        wait_for="css:#TCDS_TDETAIL_AADT_DIV table#tblTable4",
+        delay_before_return_html=1.0,
+        process_iframes=True,
     )
 
     result = await crawler.arun(url=url, config=crawler_config)
