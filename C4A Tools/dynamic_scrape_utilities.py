@@ -35,14 +35,34 @@ async def go_to_station(station_id, crawler):
         return None
     
 
-async def main():
-    station_id = "S133"
+async def crawl_stations(station_ids, headless=True, output_file=None):
+    """Crawl one or more stations and return all results."""
+    browser_config = BrowserConfig(headless=headless)
+    all_results = {}
 
-    browser_config = BrowserConfig(headless=False)
     async with AsyncWebCrawler(config=browser_config) as crawler:
-        result = await go_to_station(station_id, crawler)
-        if result:
-            print(json.dumps(result))
+        for i, station_id in enumerate(station_ids, 1):
+            print(f"[{i}/{len(station_ids)}] Crawling {station_id}...")
+            data = await go_to_station(station_id, crawler)
+            if data:
+                all_results[station_id] = data
+
+    if output_file:
+        out_path = os.path.join(SCRIPT_DIR, output_file)
+        with open(out_path, 'w') as f:
+            json.dump(all_results, f, indent=2)
+        print(f"Results saved to {out_path}")
+
+    return all_results
+
+
+async def main():
+    station_ids = ["S133"]
+
+    results = await crawl_stations(station_ids, headless=False, output_file="output.json")
+    if not results:
+        print("No results extracted.")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
